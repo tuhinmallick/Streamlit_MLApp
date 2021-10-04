@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -17,8 +18,8 @@ def main():
 
     @st.cache(persist=True)
     def load_data():
-        data = pd.read_csv("path\\to\\mushrooms.csv")
-        labelencoder=LabelEncoder()
+        data = pd.read_csv(os.path.join(os.path.expanduser('~'),'Downloads', 'Streamlit_MLApp', 'Dataset',''data.csv')
+        labelencoder = LabelEncoder()
         for col in data.columns:
             data[col] = labelencoder.fit_transform(data[col])
         return data
@@ -31,6 +32,7 @@ def main():
         return x_train, x_test, y_train, y_test
     
     def plot_metrics(metrics_list):
+        st.set_option('deprecation.showPyplotGlobalUse', False)
         if 'Confusion Matrix' in metrics_list:
             st.subheader("Confusion Matrix")
             plot_confusion_matrix(model, x_test, y_test, display_labels=class_names)
@@ -94,10 +96,11 @@ def main():
     
     if classifier == 'Random Forest':
         st.sidebar.subheader("Model Hyperparameters")
-        n_estimators = st.sidebar.number_input("The number of trees in the forest", 100, 5000, step=10, key='n_estimators')
-        max_depth = st.sidebar.number_input("The maximum depth of the tree", 1, 20, step=1, key='n_estimators')
-        bootstrap = st.sidebar.radio("Bootstrap samples when building trees", ('True', 'False'), key='bootstrap')
+        n_estimators = st.sidebar.number_input("The number of trees in the forest", 100, 5000, step=10, key='int(n_estimators)')
+        max_depth = st.sidebar.number_input("The maximum depth of the tree", 1, 20, step=1, key='int(max_depth)')
+        bootstrap = st.sidebar.radio("Bootstrap samples when building trees", ('True', 'False'), key='int(bootstrap)')
         metrics = st.sidebar.multiselect("What metrics to plot?", ('Confusion Matrix', 'ROC Curve', 'Precision-Recall Curve'))
+   
 
         if st.sidebar.button("Classify", key='classify'):
             st.subheader("Random Forest Results")

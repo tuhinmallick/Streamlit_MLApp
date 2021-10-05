@@ -18,7 +18,7 @@ def main():
 
     @st.cache(persist=True)
     def load_data():
-        data = pd.read_csv(os.path.join(os.path.expanduser('~'),'Downloads', 'Streamlit_MLApp', 'Dataset',''data.csv')
+        data = pd.read_csv(os.path.join(os.path.expanduser('~'),'Downloads', 'Streamlit_MLApp', 'Dataset','data.csv')
         labelencoder = LabelEncoder()
         for col in data.columns:
             data[col] = labelencoder.fit_transform(data[col])
